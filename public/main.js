@@ -2,6 +2,10 @@
 let chatHistory = [];
 let isLoading = false;
 
+// Navigation control variables
+let manualNavigation = false;
+let autoNavigationTimeout = null;
+
 // System prompt for OpenAI
 const SYSTEM_PROMPT = `You are Brandon Wong's portfolio assistant. You have access to the following information about Brandon:
 
@@ -76,10 +80,9 @@ async function callOpenAI(message) {
         return response.data.reply;
     } catch (error) {
         console.error('API call error:', error);
-        return "Sorry, I couldn’t connect to the server. Try again later.";
+        return "Sorry, I couldn't connect to the server. Try again later.";
     }
 }
-
 
 function activateChatbot() {
     const startupPage = document.getElementById('startupPage');
@@ -117,6 +120,19 @@ function activateChatbot() {
 function handleCardClick(cardType) {
     const data = portfolioData[cardType];
     if (data) {
+        // Set flag to prevent auto-navigation for a short period
+        manualNavigation = true;
+        
+        // Clear any existing timeout
+        if (autoNavigationTimeout) {
+            clearTimeout(autoNavigationTimeout);
+        }
+        
+        // Reset the flag after 3 seconds
+        autoNavigationTimeout = setTimeout(() => {
+            manualNavigation = false;
+        }, 3000);
+        
         // Show chat sidebar first
         showChatSidebar();
         
@@ -277,6 +293,11 @@ async function sendMessage() {
 }
 
 function autoNavigateContent(response) {
+    // Don't auto-navigate if user just manually navigated
+    if (manualNavigation) {
+        return;
+    }
+    
     const lowerResponse = response.toLowerCase();
     
     // Auto-navigate based on AI response content
@@ -383,6 +404,19 @@ document.addEventListener('DOMContentLoaded', function() {
     // Add click handlers for navigation items
     document.querySelectorAll('.nav-item').forEach(item => {
         item.addEventListener('click', function() {
+            // Set flag to prevent auto-navigation
+            manualNavigation = true;
+            
+            // Clear any existing timeout
+            if (autoNavigationTimeout) {
+                clearTimeout(autoNavigationTimeout);
+            }
+            
+            // Reset the flag after 3 seconds
+            autoNavigationTimeout = setTimeout(() => {
+                manualNavigation = false;
+            }, 3000);
+            
             // Remove active class from all items
             document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
             // Add active class to clicked item
@@ -431,7 +465,6 @@ function updateMobileMenu() {
         sidebar.classList.remove('open');
     }
 }
-
 
 window.addEventListener('resize', updateMobileMenu);
 updateMobileMenu();
