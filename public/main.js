@@ -420,13 +420,18 @@ document.addEventListener('DOMContentLoaded', function() {
 // Mobile responsiveness
 function updateMobileMenu() {
     const mobileBtn = document.querySelector('.mobile-menu-btn');
+    const sidebar = document.getElementById('sidebar');
+
+    if (!mobileBtn || !sidebar) return; // prevent error if either doesn't exist
+
     if (window.innerWidth <= 1024) {
         mobileBtn.style.display = 'flex';
     } else {
         mobileBtn.style.display = 'none';
-        document.getElementById('sidebar').classList.remove('open');
+        sidebar.classList.remove('open');
     }
 }
+
 
 window.addEventListener('resize', updateMobileMenu);
 updateMobileMenu();
