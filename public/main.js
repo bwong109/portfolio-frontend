@@ -68,7 +68,7 @@ const portfolioData = {
 // OpenAI API call function
 async function callOpenAI(message) {
     try {
-        const response = await axios.post('https://portfoliobackend-8l62.onrender.com', {
+        const response = await axios.post('https://portfoliobackend-8l62.onrender.com/api/chat', {
             message: message,
             history: chatHistory
         });
