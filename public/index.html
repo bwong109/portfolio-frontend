@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brandon's Portfolio</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.0/axios.min.js"></script>
+    <script src="main.js"></script>
+    <button class="mobile-menu-btn" onclick="toggleSidebar()" style="display: none;">☰</button>
+
+    <!-- Startup Page -->
+    <div class="startup-page" id="startupPage">
+        <div class="startup-content">
+            <div class="intro-section">
+                <h1 class="greeting">Hi, I'm Brandon!</h1>
+                <p class="description">
+                    I'm an upcoming data scientist and creative problem solver who loves building innovative solutions. 
+                    Welcome to my interactive portfolio where you can learn about my journey, explore my projects, 
+                    and discover what drives my passion for data science.
+                </p>
+                <p class="cta-text">
+                    Click below to start a conversation 
+                    <span class="bounce-arrow">↓</span>
+                </p>
+            </div>
+            
+            <div class="image-section">
+                <div class="profile-glow"></div>
+                <div class="profile-image">
+                    <img src="brandon-profile.png" alt="Brandon Wong - Data Scientist" class="profile-photo">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom 20% Preview Area -->
+    <div class="bottom-preview">
+        <div class="preview-input">
+            <div class="preview-input-container">
+                <div class="preview-input-icon">💬</div>
+                <input type="text" class="preview-input-field" placeholder="Any questions?" disabled>
+                <button class="preview-send-button">↑</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chatbot Tab -->
+    <div class="chatbot-tab" id="chatbotTab" onclick="activateChatbot()">
+        <div class="tab-content">
+            <div class="tab-arrow">↑</div>
+        </div>
+    </div>
+
+    <!-- Chatbot Container -->
+    <div class="chatbot-container" id="chatbotContainer">
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">
+                    <div class="logo-icon" onclick="showIntroPage()" style="cursor: pointer;" title="Return to introduction">B</div>
+                    <div class="logo-text">Brandon's Portfolio</div>
+                </div>
+                <button class="new-section-btn" onclick="startNewConversation()">
+                    <span>✨</span>
+                    <span>New Conversation</span>
+                </button>
+            </div>
+            
+            <div class="sidebar-nav">
+                <div class="nav-section">
+                    <div class="nav-section-title">Portfolio</div>
+                    <div class="nav-item" onclick="showIntroPage()">
+                        <div class="nav-item-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                            </svg>
+                        </div>
+                        <span>Introduction</span>
+                    </div>
+                    <div class="nav-item active">
+                        <div class="nav-item-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                                <polyline points="9,22 9,12 15,12 15,22"/>
+                            </svg>
+                        </div>
+                        <span>Home</span>
+                    </div>
+                </div>
+                
+                <div class="nav-section">
+                    <div class="nav-section-title">Recent Conversations</div>
+                    <div class="nav-item">
+                        <div class="nav-item-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+                                <line x1="16" y1="2" x2="16" y2="6"/>
+                                <line x1="8" y1="2" x2="8" y2="6"/>
+                                <line x1="3" y1="10" x2="21" y2="10"/>
+                            </svg>
+                        </div>
+                        <span>Experience</span>
+                    </div>
+                    <div class="nav-item">
+                        <div class="nav-item-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/>
+                            </svg>
+                        </div>
+                        <span>Projects</span>
+                    </div>
+                    <div class="nav-item">
+                        <div class="nav-item-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+                            </svg>
+                        </div>
+                        <span>Skills</span>
+                    </div>
+                    <div class="nav-item">
+                        <div class="nav-item-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                            </svg>
+                        </div>
+                        <span>Hobbies and Interests</span>
+                    </div>
+                    <div class="nav-item">
+                        <div class="nav-item-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                            </svg>
+                        </div>
+                        <span>Qualifications Test</span>
+                    </div>
+                    <div class="nav-item">
+                        <div class="nav-item-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                            </svg>
+                        </div>
+                        <span>Career Background</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="sidebar-footer">
+                <div class="footer-item">
+                    <div class="nav-item-icon">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="9" cy="21" r="1"/>
+                            <circle cx="20" cy="21" r="1"/>
+                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+                        </svg>
+                    </div>
+                    <span>Settings</span>
+                </div>
+                <div class="footer-item">
+                    <div class="nav-item-icon">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                            <polyline points="22,6 12,13 2,6"/>
+                        </svg>
+                    </div>
+                    <span>Contact</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <main class="main-content" id="mainContent">
+                <!-- Welcome State -->
+                <div class="welcome-state" id="welcomeState">
+                    <div class="star-container">
+                        <div class="star-glow"></div>
+                        <div class="star-icon">
+                            <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M20 2L23 17L38 20L23 23L20 38L17 23L2 20L17 17L20 2Z" fill="url(#paint0_linear)" stroke="url(#paint1_linear)" stroke-width="2"/>
+                                <path d="M30 10L31.5 15L36.5 16.5L31.5 18L30 23L28.5 18L23.5 16.5L28.5 15L30 10Z" fill="url(#paint2_linear)" stroke="url(#paint3_linear)" stroke-width="1"/>
+                                <defs>
+                                    <linearGradient id="paint0_linear" x1="20" y1="2" x2="20" y2="38" gradientUnits="userSpaceOnUse">
+                                        <stop stop-color="#60A5FA"/>
+                                        <stop offset="1" stop-color="#3B82F6"/>
+                                    </linearGradient>
+                                    <linearGradient id="paint1_linear" x1="20" y1="2" x2="20" y2="38" gradientUnits="userSpaceOnUse">
+                                        <stop stop-color="#93C5FD"/>
+                                        <stop offset="1" stop-color="#60A5FA"/>
+                                    </linearGradient>
+                                    <linearGradient id="paint2_linear" x1="30" y1="10" x2="30" y2="23" gradientUnits="userSpaceOnUse">
+                                        <stop stop-color="#93C5FD"/>
+                                        <stop offset="1" stop-color="#60A5FA"/>
+                                    </linearGradient>
+                                    <linearGradient id="paint3_linear" x1="30" y1="10" x2="30" y2="23" gradientUnits="userSpaceOnUse">
+                                        <stop stop-color="#BFDBFE"/>
+                                        <stop offset="1" stop-color="#93C5FD"/>
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <p class="welcome-text">Welcome! This chatbot is your guide to all things me.</p>
+                    <h1 class="main-title">Curious? Ask me anything!</h1>
+
+                    <div class="cards-container">
+                        <div class="card card-1" onclick="handleCardClick('resume')">
+                            <div class="card-inner">
+                                <div class="card-content">
+                                    <div class="card-text">
+                                        <div class="card-title">View my resume</div>
+                                    </div>
+                                </div>
+                                <div class="card-image">📄</div>
+                            </div>
+                        </div>
+                        
+                        <div class="card card-2" onclick="handleCardClick('story')">
+                            <div class="card-inner">
+                                <div class="card-content">
+                                    <div class="card-text">
+                                        <div class="card-title">Explore my story</div>
+                                    </div>
+                                </div>
+                                <div class="card-image">💼</div>
+                            </div>
+                        </div>
+                        
+                        <div class="card card-3" onclick="handleCardClick('projects')">
+                            <div class="card-inner">
+                                <div class="card-content">
+                                    <div class="card-text">
+                                        <div class="card-title">Dive into my projects</div>
+                                    </div>
+                                </div>
+                                <div class="card-image">🛠️</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bottom-input">
+                        <div class="input-container">
+                            <div class="input-icon">💬</div>
+                            <input type="text" class="input-field" id="mainInput" placeholder="Any questions?">
+                            <button class="send-button" onclick="sendMainMessage()">↑</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Resume Content -->
+                <div class="content-section" id="resumeContent">
+                    <div class="resume-header">
+                        <h2>Brandon Wong</h2>
+                        <p class="resume-subtitle">Upcoming Data Scientist and Graduate Student</p>
+                        <div class="contact-info">
+                            <span>📧 bwong109@usc.edu</span>
+                            <span>📍 Los Angeles, CA</span>
+                            <span>🔗 LinkedIn: /in/brandonsiuwong</span>
+                        </div>
+                    </div>
+
+                    <!-- Education Section -->
+                    <div class="resume-section">
+                        <h3 class="section-title">
+                            <span class="section-icon">🎓</span>
+                            Education
+                        </h3>
+                        
+                        <div class="education-item">
+                            <div class="education-header">
+                                <div class="institution-info">
+                                    <h4 class="institution-name">University of Southern California (USC)</h4>
+                                    <p class="institution-detail">Viterbi School of Engineering & Dornsife College</p>
+                                </div>
+                                <div class="education-dates">
+                                    <span class="graduation-date">Expected May 2026</span>
+                                    <span class="location">Los Angeles, CA</span>
+                                </div>
+                            </div>
+                            
+                            <div class="degree-info">
+                                <div class="degree-item">
+                                    <span class="degree-title">Master of Science, Applied Data Science</span>
+                                    <span class="gpa">Major GPA: 4.0/4.0</span>
+                                </div>
+                                <div class="degree-item">
+                                    <span class="degree-title">Bachelor of Arts, Data Science</span>
+                                </div>
+                                <div class="degree-item">
+                                    <span class="degree-title">Bachelor of Arts, Cognitive Science (AI Focus)</span>
+                                </div>
+                            </div>
+                            
+                            <div class="education-details">
+                                <p><strong>Cumulative GPA:</strong> 3.8/4.0</p>
+                                <p><strong>Honors:</strong> Dean's List (All semesters)</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Technical Skills Section -->
+                    <div class="resume-section">
+                        <h3 class="section-title">
+                            <span class="section-icon">⚡</span>
+                            Technical Skills
+                        </h3>
+                        
+                        <div class="skills-grid">
+                            <div class="skill-category">
+                                <h4 class="skill-category-title">Programming Languages</h4>
+                                <div class="skill-tags">
+                                    <span class="skill-tag">Python</span>
+                                    <span class="skill-tag">SQL</span>
+                                    <span class="skill-tag">C++</span>
+                                    <span class="skill-tag">Excel</span>
+                                </div>
+                            </div>
+                            
+                            <div class="skill-category">
+                                <h4 class="skill-category-title">AI & Machine Learning</h4>
+                                <div class="skill-tags">
+                                    <span class="skill-tag">Neural Networks</span>
+                                    <span class="skill-tag">NLP</span>
+                                    <span class="skill-tag">Scikit-Learn</span>
+                                    <span class="skill-tag">Generative AI</span>
+                                    <span class="skill-tag">Ollama</span>
+                                    <span class="skill-tag">Flowise</span>
+                                </div>
+                            </div>
+                            
+                            <div class="skill-category">
+                                <h4 class="skill-category-title">Data & Analytics</h4>
+                                <div class="skill-tags">
+                                    <span class="skill-tag">Apache Spark</span>
+                                    <span class="skill-tag">Tableau</span>
+                                    <span class="skill-tag">Power BI</span>
+                                    <span class="skill-tag">Pandas</span>
+                                    <span class="skill-tag">MLOps</span>
+                                    <span class="skill-tag">Data Pipelines</span>
+                                </div>
+                            </div>
+                            
+                            <div class="skill-category">
+                                <h4 class="skill-category-title">Cloud & Databases</h4>
+                                <div class="skill-tags">
+                                    <span class="skill-tag">AWS EC2</span>
+                                    <span class="skill-tag">DynamoDB</span>
+                                    <span class="skill-tag">SAP HANA</span>
+                                    <span class="skill-tag">MySQL</span>
+                                    <span class="skill-tag">Snowflake</span>
+                                    <span class="skill-tag">Git</span>
+                                    <span class="skill-tag">GitHub</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Experience Section -->
+                    <div class="resume-section">
+                        <h3 class="section-title">
+                            <span class="section-icon">💼</span>
+                            Professional Experience
+                        </h3>
+                        
+                        <!-- Southern California Edison -->
+                        <div class="experience-item">
+                            <div class="experience-header">
+                                <div class="job-info">
+                                    <h4 class="job-title">Data Science Intern</h4>
+                                    <p class="company-name">Southern California Edison</p>
+                                </div>
+                                <div class="job-details">
+                                    <span class="job-dates">May 2024 - Aug 2024</span>
+                                    <span class="job-location">Rosemead, CA</span>
+                                </div>
+                            </div>
+                            <ul class="achievement-list">
+                                <li>Built ML classification model on 100M+ smart meter readings achieving 85% accuracy for voltage classification</li>
+                                <li>Designed Tableau and Power BI visualizations for executive stakeholder decision-making processes</li>
+                                <li>Reduced company expenditures by 24% through comprehensive data analysis and optimization strategies</li>
+                                <li>Collaborated with award-winning data scientists on real-time infrastructure monitoring systems</li>
+                            </ul>
+                        </div>
+                        
+                        <!-- MarketCast -->
+                        <div class="experience-item">
+                            <div class="experience-header">
+                                <div class="job-info">
+                                    <h4 class="job-title">Data Science Intern</h4>
+                                    <p class="company-name">MarketCast</p>
+                                </div>
+                                <div class="job-details">
+                                    <span class="job-dates">Jun 2023 - Aug 2023</span>
+                                    <span class="job-location">Los Angeles, CA</span>
+                                </div>
+                            </div>
+                            <ul class="achievement-list">
+                                <li>Performed sentiment analysis on 10,000+ survey responses using advanced NLP techniques</li>
+                                <li>Built automated Python scripts reducing data processing time by 50% for audience research</li>
+                                <li>Conducted multivariate A/B testing leading to 21% increase in advertisement retention rates</li>
+                                <li>Analyzed audience reactions to major entertainment content including films and sports broadcasts</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Research & Academic Work -->
+                    <div class="resume-section">
+                        <h3 class="section-title">
+                            <span class="section-icon">🧬</span>
+                            Research & Academic Work
+                        </h3>
+                        
+                        <!-- Neural Networks Research -->
+                        <div class="experience-item">
+                            <div class="experience-header">
+                                <div class="job-info">
+                                    <h4 class="job-title">Neural Networks Research Assistant / Data Scientist</h4>
+                                    <p class="company-name">University of Southern California</p>
+                                </div>
+                                <div class="job-details">
+                                    <span class="job-dates">Fall 2023 - Present</span>
+                                    <span class="job-location">Los Angeles, CA</span>
+                                </div>
+                            </div>
+                            <ul class="achievement-list">
+                                <li>Applied deep learning techniques to model neurochemical responses to chronic stress and addiction</li>
+                                <li>Developed chemical pathway simulation models achieving 22% accuracy improvement over baseline</li>
+                                <li>Implemented MLOps pipelines for automated model retraining and performance monitoring</li>
+                                <li>Conducted research on reward system dysfunction using advanced neural network architectures</li>
+                            </ul>
+                        </div>
+                        
+                        <!-- Data Analyst -->
+                        <div class="experience-item">
+                            <div class="experience-header">
+                                <div class="job-info">
+                                    <h4 class="job-title">Data Analyst</h4>
+                                    <p class="company-name">University of Southern California</p>
+                                </div>
+                                <div class="job-details">
+                                    <span class="job-dates">Fall 2023 - Present</span>
+                                    <span class="job-location">Los Angeles, CA</span>
+                                </div>
+                            </div>
+                            <ul class="achievement-list">
+                                <li>Analyzed Air Quality Index (AQI) and asthma rates using SAP HANA, Python, and SQL</li>
+                                <li>Developed predictive models to assess air quality's impact on public health outcomes</li>
+                                <li>Created comprehensive data visualizations using SAP Predictive Analytics platform</li>
+                                <li>Identified regional health trends through statistical analysis of environmental data</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Leadership & Activities -->
+                    <div class="resume-section">
+                        <h3 class="section-title">
+                            <span class="section-icon">🌟</span>
+                            Leadership & Activities
+                        </h3>
+                        
+                        <div class="experience-item">
+                            <div class="experience-header">
+                                <div class="job-info">
+                                    <h4 class="job-title">Service Chair</h4>
+                                    <p class="company-name">Delta Omicron Zeta</p>
+                                </div>
+                                <div class="job-details">
+                                    <span class="job-dates">Aug 2022 - Dec 2022</span>
+                                    <span class="job-location">Los Angeles, CA</span>
+                                </div>
+                            </div>
+                            <ul class="achievement-list">
+                                <li>Organized and coordinated multiple fundraising events for community outreach initiatives</li>
+                                <li>Raised $1,000+ for The People Concern, a local homeless services organization</li>
+                                <li>Led team of volunteers in community service projects and social impact initiatives</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Story Content -->
+                <div class="content-section" id="storyContent">
+                    <div class="timeline-container">
+                        <div class="timeline-header">
+                            <h2>My Journey in Data Science</h2>
+                            <p>From hospitals to algorithms—how curiosity about making systems work better for people led me to data science</p>
+                        </div>
+                        
+                        <div class="timeline">
+                            <!-- Early Healthcare Experience -->
+                            <div class="timeline-item">
+                                <div class="timeline-dot"></div>
+                                <div class="timeline-content">
+                                    <div class="timeline-text-content">
+                                        <div class="timeline-date">Early Academic Career</div>
+                                        <div class="timeline-title">The Question That Started It All</div>
+                                        <div class="timeline-description">
+                                            My journey didn't start with a keyboard—it started with a question: how do we make systems work better for people? Working in hospitals and research labs, I expected clinical care would be my path to help others. But what struck me wasn't the hands-on care—it was what happened behind the scenes. I saw how organized data reduced stress, how better information enabled faster responses, and how thoughtful systems changed outcomes.
+                                        </div>
+                                        <div class="timeline-tags">
+                                            <span class="timeline-tag">Healthcare</span>
+                                            <span class="timeline-tag">Research</span>
+                                            <span class="timeline-tag">Systems Thinking</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- The Realization -->
+                            <div class="timeline-item">
+                                <div class="timeline-dot"></div>
+                                <div class="timeline-content">
+                                    <img src="data.jpg" class="timeline-image">
+                                    <div class="timeline-text-content">
+                                        <div class="timeline-date">The Pivot Moment</div>
+                                        <div class="timeline-title">Discovering the Power of Data</div>
+                                        <div class="timeline-description">
+                                            I realized that real impact could come from optimizing the invisible—the pipelines, processes, and flow of information. This reflection changed my path entirely. I began to see how data science could bridge the gap between technology and human needs, making systems not just more efficient, but more empathetic and responsive to the people they serve.
+                                        </div>
+                                        <div class="timeline-tags">
+                                            <span class="timeline-tag">Data Systems</span>
+                                            <span class="timeline-tag">Process Optimization</span>
+                                            <span class="timeline-tag">Impact</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- USC Education -->
+                            <div class="timeline-item">
+                                <div class="timeline-dot"></div>
+                                <div class="timeline-content">
+                                    <img src="usc.jpg" class="timeline-image">
+                                    <div class="timeline-text-content">
+                                        <div class="timeline-date">2022 - Present</div>
+                                        <div class="timeline-title">University of Southern California</div>
+                                        <div class="timeline-description">
+                                            I pivoted toward data science and AI, enrolling at USC for a double major in Data Science and Cognitive Science. I wanted to understand both how people think and how machines learn—and more importantly, how they can work together to create meaningful solutions. This interdisciplinary approach has shaped my perspective on building technology that truly serves human needs.
+                                        </div>
+                                        <div class="timeline-tags">
+                                            <span class="timeline-tag">Data Science</span>
+                                            <span class="timeline-tag">Cognitive Science</span>
+                                            <span class="timeline-tag">AI</span>
+                                            <span class="timeline-tag">Human-Computer Interaction</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- MarketCast Experience -->
+                            <div class="timeline-item">
+                                <div class="timeline-dot"></div>
+                                <div class="timeline-content">
+                                    <img src="marketcast.jpg" class="timeline-image">
+                                    <div class="timeline-text-content">
+                                        <div class="timeline-date">June - August 2023</div>
+                                        <div class="timeline-title">MarketCast - Data Science Intern</div>
+                                        <div class="timeline-description">
+                                            My first industry experience merged data with culture. I analyzed audience reactions to films like Barbie and major sports broadcasts, using NLP and A/B testing to improve ad targeting and retention. It was exciting to see how storytelling and analytics could shape how content reached people, but while entertainment was fast-paced and creative, I found myself craving deeper systemic impact.
+                                        </div>
+                                        <div class="timeline-tags">
+                                            <span class="timeline-tag">NLP</span>
+                                            <span class="timeline-tag">A/B Testing</span>
+                                            <span class="timeline-tag">Entertainment Analytics</span>
+                                            <span class="timeline-tag">Audience Research</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- USC Research -->
+                            <div class="timeline-item">
+                                <div class="timeline-dot"></div>
+                                <div class="timeline-content">
+                                    <img src="research.jpg" class="timeline-image">
+                                    <div class="timeline-text-content">
+                                        <div class="timeline-date">Fall 2023 - Present</div>
+                                        <div class="timeline-title">USC Research Lab - Applied Data Science</div>
+                                        <div class="timeline-description">
+                                            Diving deeper into applied science, I joined a research lab modeling neurochemical responses to stress and addiction using deep learning. I also worked with public health data to uncover links between air quality and asthma—experiences that reminded me of my broader mission: using data to improve lives in meaningful, grounded ways. This research reinforced my belief in data science as a tool for social good.
+                                        </div>
+                                        <div class="timeline-tags">
+                                            <span class="timeline-tag">Deep Learning</span>
+                                            <span class="timeline-tag">Neurochemical Modeling</span>
+                                            <span class="timeline-tag">Public Health</span>
+                                            <span class="timeline-tag">Research</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Southern California Edison -->
+                            <div class="timeline-item">
+                                <div class="timeline-dot"></div>
+                                <div class="timeline-content">
+                                    <img src="edison.jpg" class="timeline-image">
+                                    <div class="timeline-text-content">
+                                        <div class="timeline-date">May - August 2024</div>
+                                        <div class="timeline-title">Southern California Edison - Data Science Intern</div>
+                                        <div class="timeline-description">
+                                            Working with award-winning data scientists on real infrastructure problems, I developed ML models processing over 100 million smart meter readings and built dashboards used by field teams in real time. I learned from fault detection systems that identified powerline risks before they became critical issues. This experience showed me how data science can have immediate, tangible impact on millions of people's daily lives.
+                                        </div>
+                                        <div class="timeline-tags">
+                                            <span class="timeline-tag">Machine Learning</span>
+                                            <span class="timeline-tag">Smart Grid</span>
+                                            <span class="timeline-tag">Infrastructure</span>
+                                            <span class="timeline-tag">Real-time Systems</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Current Focus -->
+                            <div class="timeline-item">
+                                <div class="timeline-dot"></div>
+                                <div class="timeline-content">
+                                    <div class="timeline-text-content">
+                                        <div class="timeline-date">Present & Future</div>
+                                        <div class="timeline-title">Human-Centered Data Science</div>
+                                        <div class="timeline-description">
+                                            Now focused on machine learning in healthcare and technology, I'm drawn to problems where the solution isn't just technical, but human. Whether helping people make better decisions or designing smarter, more inclusive systems, I want to be part of work that matters. This journey has shaped how I see the world: data science isn't just about models or dashboards—it's about empathy, design, and clarity. It's about building systems that work for people, not just around them.
+                                        </div>
+                                        <div class="timeline-tags">
+                                            <span class="timeline-tag">Healthcare ML</span>
+                                            <span class="timeline-tag">Human-Centered Design</span>
+                                            <span class="timeline-tag">Inclusive Systems</span>
+                                            <span class="timeline-tag">Social Impact</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Projects Content -->
+                <div class="content-section" id="projectsContent">
+                    <div class="projects-header">
+                        <h2>Featured Projects</h2>
+                        <p class="projects-subtitle">A collection of machine learning and data science projects showcasing my technical expertise</p>
+                    </div>
+                    
+                    <div class="projects-grid">
+                        <!-- Recipe Recommender System -->
+                        <div class="project-card">
+                            <div class="project-image">
+                                <div class="project-icon">🍳</div>
+                                <div class="project-overlay">
+                                    <a href="https://github.com/bwong109/recipe-recommender-system" target="_blank" class="github-link">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="project-content">
+                                <h3 class="project-title">Recipe Recommender System</h3>
+                                <p class="project-description">
+                                    A user-friendly, interactive recipe recommender application that allows users to manage their ingredient inventory, extract ingredients from images using OCR, and receive recipe recommendations based on available ingredients. Designed with simplicity and modularity in mind.
+                                </p>
+                                <div class="project-tech">
+                                    <span class="tech-tag">Flask</span>
+                                    <span class="tech-tag">OCR</span>
+                                    <span class="tech-tag">Python</span>
+                                    <span class="tech-tag">Machine Learning</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Credit Card Fraud Detection -->
+                        <div class="project-card">
+                            <div class="project-image">
+                                <div class="project-icon">🛡️</div>
+                                <div class="project-overlay">
+                                    <a href="https://github.com/bwong109/fraud-detection" target="_blank" class="github-link">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="project-content">
+                                <h3 class="project-title">Credit Card Fraud Detection</h3>
+                                <p class="project-description">
+                                    A robust machine learning system to detect fraudulent credit card transactions using a highly imbalanced dataset. Leverages advanced data exploration, feature engineering, and machine learning models to identify key patterns and develop a high-performing fraud detection system.
+                                </p>
+                                <div class="project-tech">
+                                    <span class="tech-tag">Machine Learning</span>
+                                    <span class="tech-tag">Random Forest</span>
+                                    <span class="tech-tag">XGBoost</span>
+                                    <span class="tech-tag">Feature Engineering</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- SpaceX Falcon 9 Prediction -->
+                        <div class="project-card">
+                            <div class="project-image">
+                                <div class="project-icon">🚀</div>
+                                <div class="project-overlay">
+                                    <a href="https://github.com/bwong109/spacex-falcon-9-landing-prediction-model" target="_blank" class="github-link">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="project-content">
+                                <h3 class="project-title">SpaceX Falcon 9 Landing Prediction</h3>
+                                <p class="project-description">
+                                    Predicts the success of SpaceX Falcon 9 first-stage booster landings using supervised machine learning techniques. Involves web scraping launch data from Wikipedia, data preprocessing, exploratory data analysis, and building multiple ML models to evaluate performance.
+                                </p>
+                                <div class="project-tech">
+                                    <span class="tech-tag">Web Scraping</span>
+                                    <span class="tech-tag">Data Analysis</span>
+                                    <span class="tech-tag">Classification</span>
+                                    <span class="tech-tag">Python</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Smart Traffic Management -->
+                        <div class="project-card">
+                            <div class="project-image">
+                                <div class="project-icon">🚦</div>
+                                <div class="project-overlay">
+                                    <a href="https://github.com/bwong109/traffic-management-system" target="_blank" class="github-link">
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="project-content">
+                                <h3 class="project-title">Smart Traffic Management System</h3>
+                                <p class="project-description">
+                                    A reinforcement learning-based system to optimize traffic light management using SUMO (Simulation of Urban MObility). Designed to train a traffic model on a specific network and test its performance, providing insights into reducing waiting time and improving traffic flow.
+                                </p>
+                                <div class="project-tech">
+                                    <span class="tech-tag">Reinforcement Learning</span>
+                                    <span class="tech-tag">SUMO</span>
+                                    <span class="tech-tag">Traffic Optimization</span>
+                                    <span class="tech-tag">Simulation</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <!-- Chat Sidebar -->
+        <div class="chat-sidebar" id="chatSidebar">
+            <div class="chat-header">
+                <div class="chat-logo">
+                    <div class="logo-icon">💬</div>
+                    <div class="logo-text">Chat History</div>
+                </div>
+            </div>
+            
+            <div class="chat-messages" id="chatMessages">
+                <!-- Messages will be added here -->
+            </div>
+            
+            <div class="chat-input-area">
+                <div class="chat-input-container">
+                    <input type="text" class="chat-input" id="chatInput" placeholder="Ask me anything...">
+                    <button class="chat-send-btn" onclick="sendMessage()">↑</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
