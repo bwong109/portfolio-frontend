@@ -544,15 +544,37 @@ document.addEventListener('DOMContentLoaded', function() {
                 hideChatSidebar();
             } else if (itemText.includes('experience')) {
                 showChatSidebar();
+                showContent('resume');
                 document.getElementById('chatInput').value = "Tell me about Brandon's work experience and internships";
                 sendMessage();
             } else if (itemText.includes('projects')) {
                 showChatSidebar();
+                showContent('projects');
                 document.getElementById('chatInput').value = "Show me Brandon's projects and research work";
                 sendMessage();
             } else if (itemText.includes('skills')) {
                 showChatSidebar();
+                showContent('resume');
                 document.getElementById('chatInput').value = "What are Brandon's technical skills and expertise?";
+                sendMessage();
+            } else if (itemText.includes('data science journey')) {
+                showChatSidebar();
+                showContent('story');
+                document.getElementById('chatInput').value = "Tell me about Brandon's journey into data science and his career story";
+                sendMessage();
+            } else if (itemText.includes('hobbies') || itemText.includes('interests')) {
+                showChatSidebar();
+                document.getElementById('chatInput').value = "What are Brandon's hobbies and interests outside of work?";
+                sendMessage();
+            } else if (itemText.includes('qualifications')) {
+                showChatSidebar();
+                showContent('resume');
+                document.getElementById('chatInput').value = "What qualifications and certifications does Brandon have?";
+                sendMessage();
+            } else if (itemText.includes('career background')) {
+                showChatSidebar();
+                showContent('resume');
+                document.getElementById('chatInput').value = "Tell me about Brandon's career background and professional experience";
                 sendMessage();
             }
         });
