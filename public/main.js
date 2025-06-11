@@ -1,6 +1,7 @@
 // Chat system variables
 let chatHistory = [];
 let isLoading = false;
+let backendReady = false;
 
 // Navigation control variables
 let manualNavigation = false;
@@ -69,19 +70,98 @@ const portfolioData = {
     }
 };
 
-// OpenAI API call function
-async function callOpenAI(message) {
+// Backend preloading function
+async function preloadBackend() {
     try {
-        const response = await axios.post('https://portfoliobackend-8l62.onrender.com/api/chat', {
-            message: message,
-            history: chatHistory
+        console.log('Preloading backend...');
+        const response = await axios.get('https://portfoliobackend-8l62.onrender.com/api/health', {
+            timeout: 10000 // 10 second timeout
         });
-
-        return response.data.reply;
+        
+        if (response.status === 200) {
+            backendReady = true;
+            console.log('Backend preloaded successfully');
+            updateChatbotStatus(true);
+        }
     } catch (error) {
-        console.error('API call error:', error);
-        return "Sorry, I couldn't connect to the server. Try again later.";
+        console.log('Backend preload failed, will retry on first message:', error.message);
+        backendReady = false;
+        updateChatbotStatus(false);
+        
+        // Retry in background every 30 seconds
+        setTimeout(preloadBackend, 30000);
     }
+}
+
+// Update UI to show backend status
+function updateChatbotStatus(ready) {
+    const tabArrow = document.querySelector('.tab-arrow');
+    const inputPlaceholders = document.querySelectorAll('.input-field, .chat-input, .preview-input-field');
+    
+    if (ready) {
+        // Update tab arrow to show ready state
+        if (tabArrow) {
+            tabArrow.style.color = 'rgba(96, 165, 250, 0.8)';
+        }
+        
+        // Update placeholders to show ready state
+        inputPlaceholders.forEach(input => {
+            if (input.placeholder && input.placeholder.includes('Any questions?')) {
+                input.placeholder = 'Any questions?';
+            }
+        });
+    } else {
+        // Show loading state
+        if (tabArrow) {
+            tabArrow.style.color = 'rgba(255, 255, 255, 0.4)';
+        }
+        
+        inputPlaceholders.forEach(input => {
+            if (input.placeholder && input.placeholder.includes('Any questions?')) {
+                input.placeholder = 'Starting up chatbot...';
+            }
+        });
+    }
+}
+
+// Enhanced OpenAI API call function with retry logic
+async function callOpenAI(message) {
+    let retries = 0;
+    const maxRetries = 2;
+    
+    while (retries <= maxRetries) {
+        try {
+            const response = await axios.post('https://portfoliobackend-8l62.onrender.com/api/chat', {
+                message: message,
+                history: chatHistory
+            }, {
+                timeout: 30000 // 30 second timeout
+            });
+
+            backendReady = true;
+            updateChatbotStatus(true);
+            return response.data.reply;
+            
+        } catch (error) {
+            console.error(`API call attempt ${retries + 1} failed:`, error);
+            retries++;
+            
+            if (retries <= maxRetries) {
+                // Show retry message
+                if (retries === 1) {
+                    updateLoadingMessage('Waking up server, please wait...');
+                }
+                
+                // Wait before retry (longer for first retry to give server time to wake up)
+                const waitTime = retries === 1 ? 15000 : 5000;
+                await new Promise(resolve => setTimeout(resolve, waitTime));
+            }
+        }
+    }
+    
+    backendReady = false;
+    updateChatbotStatus(false);
+    return "I'm having trouble connecting to the server right now. The chatbot may be starting up - please try again in a moment!";
 }
 
 function activateChatbot() {
@@ -216,6 +296,8 @@ function addMessage(content, isUser = false) {
     messagesContainer.scrollTop = messagesContainer.scrollHeight;
 }
 
+let currentLoadingInterval = null;
+
 function addLoadingMessage() {
     const messagesContainer = document.getElementById('chatMessages');
     const messageDiv = document.createElement('div');
@@ -234,16 +316,39 @@ function addLoadingMessage() {
     
     // Add typing animation
     let dots = 0;
-    const interval = setInterval(() => {
+    currentLoadingInterval = setInterval(() => {
         dots = (dots + 1) % 4;
         messageContent.innerHTML = '• '.repeat(dots || 1);
     }, 500);
     
-    return interval;
+    return currentLoadingInterval;
+}
+
+function updateLoadingMessage(text) {
+    const loadingMessage = document.getElementById('loading-message');
+    if (loadingMessage) {
+        const messageContent = loadingMessage.querySelector('.message-content');
+        if (messageContent) {
+            messageContent.innerHTML = text;
+            
+            // Clear existing interval and start new one for new text
+            if (currentLoadingInterval) {
+                clearInterval(currentLoadingInterval);
+            }
+            
+            // Add typing animation for new text
+            let dots = 0;
+            currentLoadingInterval = setInterval(() => {
+                dots = (dots + 1) % 4;
+                messageContent.innerHTML = text + ' ' + '• '.repeat(dots || 1);
+            }, 500);
+        }
+    }
 }
 
 function removeLoadingMessage(interval) {
     if (interval) clearInterval(interval);
+    if (currentLoadingInterval) clearInterval(currentLoadingInterval);
     const loadingMessage = document.getElementById('loading-message');
     if (loadingMessage) {
         loadingMessage.remove();
@@ -384,6 +489,9 @@ function toggleSidebar() {
 
 // Add click handlers for navigation items
 document.addEventListener('DOMContentLoaded', function() {
+    // Start backend preloading immediately when page loads
+    preloadBackend();
+    
     const chatInput = document.getElementById('chatInput');
     const mainInput = document.getElementById('mainInput');
     
