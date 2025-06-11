@@ -118,7 +118,7 @@ function updateChatbotStatus(ready) {
         
         inputPlaceholders.forEach(input => {
             if (input.placeholder && input.placeholder.includes('Any questions?')) {
-                input.placeholder = 'Starting up chatbot...';
+                input.placeholder = 'Questions here...';
             }
         });
     }
