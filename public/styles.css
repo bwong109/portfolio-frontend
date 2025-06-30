@@ -847,11 +847,11 @@ body {
     border-radius: 16px;
     padding: 12px 16px;
     display: flex;
-    align-items: flex-end;  /* Changed from center to flex-end */
+    align-items: flex-end;
     gap: 12px;
     backdrop-filter: blur(40px);
     border: 1px solid rgba(255, 255, 255, 0.08);
-    min-height: 44px;  /* Add minimum height */
+    min-height: 44px;
 }
 
 .chat-input {
@@ -869,6 +869,7 @@ body {
     line-height: 1.4;
     overflow-y: auto;
     word-wrap: break-word;
+    transition: height 0.1s ease;
 }
 
 .chat-input::placeholder {
