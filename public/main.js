@@ -618,3 +618,28 @@ document.addEventListener('mousemove', (e) => {
         starGlow.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
     }
 });
+
+// Auto-resize chat input
+document.addEventListener('DOMContentLoaded', function() {
+    const chatInput = document.getElementById('chatInput');
+    
+    if (chatInput) {
+        chatInput.addEventListener('input', function() {
+            // Reset height to auto to get the correct scrollHeight
+            this.style.height = 'auto';
+            
+            // Set height based on scrollHeight, with min and max limits
+            const newHeight = Math.min(Math.max(this.scrollHeight, 20), 120);
+            this.style.height = newHeight + 'px';
+        });
+        
+        // Reset height when input is cleared
+        chatInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                setTimeout(() => {
+                    this.style.height = '20px';
+                }, 100);
+            }
+        });
+    }
+});
