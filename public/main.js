@@ -57,7 +57,7 @@ Always respond as Brandon's assistant, providing helpful information about his b
 // Portfolio data for card clicks
 const portfolioData = {
     resume: {
-        prompt: "Show me Brandon's resume and educational background",
+        prompt: "Summarize Brandon's resume and educational background",
         action: () => showContent('resume')
     },
     story: {
@@ -65,7 +65,7 @@ const portfolioData = {
         action: () => showContent('story')
     },
     projects: {
-        prompt: "Show me Brandon's projects and research work",
+        prompt: "Summarize Brandon's projects and research work",
         action: () => showContent('projects')
     }
 };
@@ -118,7 +118,7 @@ function updateChatbotStatus(ready) {
         
         inputPlaceholders.forEach(input => {
             if (input.placeholder && input.placeholder.includes('Any questions?')) {
-                input.placeholder = 'Questions here...';
+                input.placeholder = 'Type your questions here!';
             }
         });
     }
