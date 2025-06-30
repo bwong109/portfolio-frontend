@@ -370,7 +370,6 @@ async function sendMessage() {
         
         // Clear input
         input.value = '';
-        input.style.height = '20px';
         
         // Show loading animation
         const loadingInterval = addLoadingMessage();
@@ -617,52 +616,5 @@ document.addEventListener('mousemove', (e) => {
         const y = (e.clientY / window.innerHeight) * 20 - 10;
         
         starGlow.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px))`;
-    }
-});
-
-// Auto-resize chat input to expand upwards
-document.addEventListener('DOMContentLoaded', function() {
-    const chatInput = document.getElementById('chatInput');
-    
-    if (chatInput) {
-        // Function to adjust height
-        function adjustHeight() {
-            // Reset height to get accurate scrollHeight
-            chatInput.style.height = '20px';
-            
-            // Calculate new height within bounds
-            const scrollHeight = chatInput.scrollHeight;
-            const newHeight = Math.min(Math.max(scrollHeight, 20), 120);
-            
-            // Set the new height
-            chatInput.style.height = newHeight + 'px';
-        }
-        
-        // Adjust height on input
-        chatInput.addEventListener('input', adjustHeight);
-        
-        // Adjust height on paste
-        chatInput.addEventListener('paste', function() {
-            setTimeout(adjustHeight, 0);
-        });
-        
-        // Reset height when message is sent
-        chatInput.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                setTimeout(() => {
-                    chatInput.style.height = '20px';
-                }, 100);
-            }
-        });
-        
-        // Also reset height when send button is clicked
-        const sendButton = document.querySelector('.chat-send-btn');
-        if (sendButton) {
-            sendButton.addEventListener('click', function() {
-                setTimeout(() => {
-                    chatInput.style.height = '20px';
-                }, 100);
-            });
-        }
     }
 });

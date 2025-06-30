@@ -1,3 +1,5 @@
+/* Add this to the very beginning of your styles.css file */
+
 /* Custom Dark Scrollbar Styling */
 ::-webkit-scrollbar {
     width: 8px;
@@ -27,48 +29,6 @@
 * {
     scrollbar-width: thin;
     scrollbar-color: rgba(255, 255, 255, 0.2) rgba(15, 20, 25, 0.3);
-}
-
-/* Prevent horizontal scrolling and ensure proper scaling */
-html, body {
-    overflow-x: hidden !important;
-    max-width: 100vw;
-}
-
-* {
-    max-width: 100%;
-    box-sizing: border-box;
-}
-
-/* Ensure all containers respect viewport width */
-.startup-content,
-.container,
-.main-content,
-.content-section,
-.cards-container,
-.bottom-input,
-.input-container,
-.timeline-container,
-.projects-grid {
-    max-width: 100%;
-    overflow-x: hidden;
-}
-
-/* Specific fixes for potentially overflowing elements */
-.startup-content {
-    width: 100%;
-    max-width: min(1200px, 90vw);
-    padding: 0 5vw;
-}
-
-.cards-container {
-    width: 100%;
-    max-width: min(700px, 90vw);
-}
-
-.bottom-input {
-    width: 100%;
-    max-width: min(700px, calc(100vw - 80px));
 }
 
 /* Update your existing body styles */
@@ -847,11 +807,10 @@ body {
     border-radius: 16px;
     padding: 12px 16px;
     display: flex;
-    align-items: flex-end;
+    align-items: center;
     gap: 12px;
     backdrop-filter: blur(40px);
     border: 1px solid rgba(255, 255, 255, 0.08);
-    min-height: 44px;
 }
 
 .chat-input {
@@ -863,13 +822,6 @@ body {
     font-weight: 400;
     outline: none;
     font-family: inherit;
-    resize: none;
-    min-height: 20px;
-    max-height: 120px;
-    line-height: 1.4;
-    overflow-y: auto;
-    word-wrap: break-word;
-    transition: height 0.1s ease;
 }
 
 .chat-input::placeholder {
