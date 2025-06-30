@@ -554,12 +554,12 @@ document.addEventListener('DOMContentLoaded', function() {
             } else if (itemText.includes('experience')) {
                 showChatSidebar();
                 showContent('resume');
-                document.getElementById('chatInput').value = "Tell me about Brandon's work experience and internships";
+                document.getElementById('chatInput').value = "Summarize Brandon's work experience and internships";
                 sendMessage();
             } else if (itemText.includes('projects')) {
                 showChatSidebar();
                 showContent('projects');
-                document.getElementById('chatInput').value = "Show me Brandon's projects and research work";
+                document.getElementById('chatInput').value = "Summarize Brandon's projects and research work";
                 sendMessage();
             } else if (itemText.includes('skills')) {
                 showChatSidebar();
